@@ -2,7 +2,10 @@
 Collar
 =====
 This is an Arduino library to control this specific type of shock collar which are easy to find at the moment on ebay:
-<TODO: collar image>
+
+![Collar](https://raw.githubusercontent.com/CrashOverride85/collar/master/images/collar.jpg)
+
+
 There are other libraries which can control other similar shock collars, e.g. [DogCollar2](https://github.com/flash89y/Arduino/tree/master/libraries/DogCollar2)
 
 
@@ -25,7 +28,7 @@ And for anyone interested in how it works...
 
 ## Transmission format
 The transmission format is probably much easier to explain with the benefit of a capture/diagram:
-<TODO: cap image>
+![bit format](https://raw.githubusercontent.com/CrashOverride85/collar/master/images/cap.png)
 
 Each bit is ~1ms long and starts with a rising edge. If the signal is still high ~500uS after the rising edge, it's treated as a 1, otherwise a 0 (data is sent MSB first).
 
