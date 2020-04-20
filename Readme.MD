@@ -5,8 +5,12 @@ This is an Arduino library to control this specific type of shock collar which a
 
 ![Collar](https://raw.githubusercontent.com/CrashOverride85/collar/master/images/collar.jpg)
 
+Since creating this library, I've realised that there are (at least) two different types of this collar which look *identical* on the outside, but very different on the inside and operate at different frequencies - 433HMz and 915MHz. This library was written for the 433MHz variant, and I've got no idea if it'll work for the 915MHz variant or if the protocol is also different (given how different the insides look, I suspect it _won't_ work).
 
-There are other libraries which can control other similar shock collars, e.g. [DogCollar2](https://github.com/flash89y/Arduino/tree/master/libraries/DogCollar2)
+![433vs915](https://raw.githubusercontent.com/CrashOverride85/collar/master/images/433vs915.jpg)
+
+
+There are also other libraries which can control other similar shock collars, e.g. [DogCollar2](https://github.com/flash89y/Arduino/tree/master/libraries/DogCollar2)
 
 
 ## Hardware
