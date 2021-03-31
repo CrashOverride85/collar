@@ -10,7 +10,7 @@ const uint8_t  rx_pin = 3;
 
 CollarRx *_rx;
 volatile bool got_message = false;
-struct collar_message *rx_message;
+struct collar_message rx_message;
 
 void setup() 
 {
@@ -22,7 +22,7 @@ void setup()
 // therefore it shouldn't do much.
 void message_callback (const struct collar_message *msg, void *userdata)
 {
-  memcpy(rx_message, msg, sizeof(struct collar_message));
+  memcpy(&rx_message, msg, sizeof(struct collar_message));
   got_message = true;
 }
 
@@ -32,7 +32,7 @@ void loop()
   if (got_message)
   {
     Serial.println("\nGot message:");
-    CollarRx::print_message(rx_message);
+    CollarRx::print_message(&rx_message);
     got_message = false;
     Serial.println("");
   }

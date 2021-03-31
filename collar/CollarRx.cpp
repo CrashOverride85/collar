@@ -33,8 +33,8 @@ void CollarRx::buffer_to_collar_message(const uint8_t buffer[5], struct collar_m
   memcpy(&msg->id, buffer, 2);
 
   // byte 2 = mode & channel
-  msg->mode     =  buffer[2] & 0x0F;
-  msg->channel  = (buffer[2] & 0xF0) << 4;
+  msg->mode     = (collar_mode)buffer[2] & 0x0F;
+  msg->channel  = (collar_channel)(buffer[2] & 0xF0) >> 4;
 
   // byte 3 = power
   msg->power    =  buffer[3];
