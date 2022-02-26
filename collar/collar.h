@@ -1,4 +1,7 @@
 
+#ifndef _COLLAR_H
+#define _COLLAR_H
+
 #include <stdint.h>
 #include "Arduino.h"
 
@@ -16,19 +19,15 @@ struct collar_message
 class CollarTx
 {
   public:
-    CollarTx(uint8_t tx_pin, uint16_t id);
     void transmit (collar_channel channel, collar_mode mode, uint8_t power);
-    void transmit (struct collar_message message);
-
-  private:
+    virtual void transmit (struct collar_message message) = 0;
+    
+  protected:
     uint16_t _id;
-    uint8_t _tx_pin;
-
-    void tx_start();
-    void tx_bit(bool one);
-    void tx_byte(uint8_t val);
-    void tx_buffer(uint8_t *buf, uint8_t buf_len);
+  
 };
+
+
 
 #define START_PULSE_LEN_US 2200
 #define START_PULSE_TOLLERANCE 100
@@ -62,3 +61,5 @@ class CollarRx
 
 };
 
+
+#endif
