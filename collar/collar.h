@@ -24,13 +24,9 @@ class CollarTx
     
   protected:
     uint16_t _id;
-  
 };
 
 
-
-#define START_PULSE_LEN_US 2200
-#define START_PULSE_TOLLERANCE 100
 typedef void (*msg_cb_t)(const struct collar_message *msg, void *userdata);
 
 class CollarRx
@@ -42,23 +38,19 @@ class CollarRx
     static const char *mode_to_str(collar_mode mode);
     static void print_message(struct collar_message *msg);
     static CollarRx *_instance;
-
-
+    static void s_isr();
+    
   private:
+    void rx_start();
+    
+  protected:
     uint16_t _id;
     bool _use_id;
     uint8_t _rx_pin;
     void *_userdata;
     msg_cb_t _cb;
     struct collar_message _rx_msg;
-
-
-    void rx_start();
-    bool is_message_valid(const uint8_t buffer[5]);
-    void buffer_to_collar_message(const uint8_t buffer[5], struct collar_message *msg);
-    void isr();
-    static void s_isr();
-
+    virtual void isr() = 0;
 };
 
 

@@ -49,6 +49,7 @@ void CollarTxType2::transmit (struct collar_message message)
   txbuf[4] = ((mode_inverted_reversed<< 4) | channel_inverted_reversed);
   
   tx_buffer(txbuf, sizeof(txbuf));
+  tx_buffer(txbuf, sizeof(txbuf));
 }
 
 void CollarTxType2::tx_start()
