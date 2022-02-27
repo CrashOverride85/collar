@@ -1,7 +1,7 @@
 
 Collar
 =====
-This is an Arduino library to control (currently) two types of shock collar which are easy to find at the moment on ebay:
+This is an Arduino library to control (currently) two types of shock collar which are easy to find at the moment on ebay. Because they seem to go by different names, I'm just going to unimaginatively call them TypeX:
 
 ### Type 1
 ![CollarType1](extra/images/type1/collar.jpg)
@@ -13,10 +13,10 @@ For more details, see [Type1](extra/Type1.MD).
 
 For more details, see [Type2](extra/Type2.MD).
 
+### Others
+* There are also other libraries which can control other similar shock collars, e.g. [DogCollar2](https://github.com/flash89y/Arduino/tree/master/libraries/DogCollar2)
 
-
-There are also other libraries which can control other similar shock collars, e.g. [DogCollar2](https://github.com/flash89y/Arduino/tree/master/libraries/DogCollar2)
-
+* Also see https://ripper121.com/dogs-education-collar-433-mhz-arduino-pilight/ for details of another collar type
 
 ## Hardware
 The only required hardware is an Arduino (tested on an Uno) and a 433MHz transmitter and/or receiver module which can be obtained cheaply from ebay.
