@@ -1,3 +1,5 @@
+#ifndef _COLLARRXTYPE2_H
+#define _COLLARRXTYPE2_H
 
 #include "collar.h"
 
@@ -12,3 +14,5 @@ class CollarRxType2 : public CollarRx
     void isr();
 
 };
+
+#endif

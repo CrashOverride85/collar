@@ -53,5 +53,10 @@ class CollarRx
     virtual void isr() = 0;
 };
 
+#include "type1/CollarRxType1.h"
+#include "type1/CollarTxType1.h"
+
+#include "type2/CollarRxType2.h"
+#include "type2/CollarTxType2.h"
 
 #endif

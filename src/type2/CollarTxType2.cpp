@@ -1,4 +1,4 @@
-#include <CollarTxType2.h>
+#include "CollarTxType2.h"
 
 CollarTxType2::CollarTxType2(uint8_t tx_pin, uint16_t id)
 {

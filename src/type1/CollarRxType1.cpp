@@ -1,4 +1,4 @@
-#include <CollarRxType1.h>
+#include "CollarRxType1.h"
 
 #define TYPE1_START_PULSE_LEN_US 2200
 #define TYPE1_START_PULSE_TOLLERANCE 100
