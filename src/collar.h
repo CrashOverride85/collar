@@ -1,4 +1,7 @@
 
+#ifndef _COLLAR_H
+#define _COLLAR_H
+
 #include <stdint.h>
 #include "Arduino.h"
 
@@ -16,22 +19,14 @@ struct collar_message
 class CollarTx
 {
   public:
-    CollarTx(uint8_t tx_pin, uint16_t id);
     void transmit (collar_channel channel, collar_mode mode, uint8_t power);
-    void transmit (struct collar_message message);
-
-  private:
+    virtual void transmit (struct collar_message message) = 0;
+    
+  protected:
     uint16_t _id;
-    uint8_t _tx_pin;
-
-    void tx_start();
-    void tx_bit(bool one);
-    void tx_byte(uint8_t val);
-    void tx_buffer(uint8_t *buf, uint8_t buf_len);
 };
 
-#define START_PULSE_LEN_US 2200
-#define START_PULSE_TOLLERANCE 100
+
 typedef void (*msg_cb_t)(const struct collar_message *msg, void *userdata);
 
 class CollarRx
@@ -43,22 +38,25 @@ class CollarRx
     static const char *mode_to_str(collar_mode mode);
     static void print_message(struct collar_message *msg);
     static CollarRx *_instance;
-
-
+    static void s_isr();
+    
   private:
+    void rx_start();
+    
+  protected:
     uint16_t _id;
     bool _use_id;
     uint8_t _rx_pin;
     void *_userdata;
     msg_cb_t _cb;
     struct collar_message _rx_msg;
-
-
-    void rx_start();
-    bool is_message_valid(const uint8_t buffer[5]);
-    void buffer_to_collar_message(const uint8_t buffer[5], struct collar_message *msg);
-    void isr();
-    static void s_isr();
-
+    virtual void isr() = 0;
 };
 
+#include "type1/CollarRxType1.h"
+#include "type1/CollarTxType1.h"
+
+#include "type2/CollarRxType2.h"
+#include "type2/CollarTxType2.h"
+
+#endif

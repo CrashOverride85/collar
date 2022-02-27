@@ -15,7 +15,9 @@ struct collar_message rx_message;
 void setup() 
 {
   Serial.begin(115200);
-  _rx =  new CollarRx(rx_pin, message_callback, NULL);
+
+  // Change "CollarRxType1" to "CollarRxType2" below if nessesary
+  _rx =  new CollarRxType1(rx_pin, message_callback, NULL);
 }
 
 // Called from within an interupt handler when a message is received,

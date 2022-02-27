@@ -27,7 +27,9 @@ void setup()
   Serial.begin(115200);
   Serial.print("Using ID: ");
   Serial.println(transmitter_id, HEX);
-  _tx =  new CollarTx(tx_pin, transmitter_id);
+  
+  // Change "CollarTxType1" to "CollarTxType2" below if nessesary
+  _tx =  new CollarTxType1(tx_pin, transmitter_id);
 
   /* Valid options for: 
    *   channel - CH1, CH2, CH3

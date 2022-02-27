@@ -1,30 +1,20 @@
-#include <collar.h>
+#include "CollarRxType1.h"
 
-CollarRx* CollarRx::_instance;
+#define TYPE1_START_PULSE_LEN_US 2200
+#define TYPE1_START_PULSE_TOLLERANCE 100
 
 
-CollarRx::CollarRx(uint8_t rx_pin, msg_cb_t cb, void *userdata, uint16_t id)
+CollarRxType1::CollarRxType1(uint8_t rx_pin, msg_cb_t cb, void *userdata, uint16_t id) : CollarRx { rx_pin, cb, userdata, id }
 {
-  _rx_pin = rx_pin;
-  _cb = cb;
-  _userdata = userdata;
-  _id = id;
-  _use_id = true;
 
-  rx_start();
 }
 
-CollarRx::CollarRx(uint8_t rx_pin, msg_cb_t cb, void *userdata)
+CollarRxType1::CollarRxType1(uint8_t rx_pin, msg_cb_t cb, void *userdata) : CollarRx { rx_pin, cb, userdata } 
 {
-  _rx_pin = rx_pin;
-  _cb = cb;
-  _userdata = userdata;
-  _use_id = false;
 
-  rx_start();
 }
 
-void CollarRx::buffer_to_collar_message(const uint8_t buffer[5], struct collar_message *msg)
+void CollarRxType1::buffer_to_collar_message(const uint8_t buffer[5], struct collar_message *msg)
 {
   // wipe old message
   memset(msg, 0, sizeof(struct collar_message));
@@ -42,7 +32,7 @@ void CollarRx::buffer_to_collar_message(const uint8_t buffer[5], struct collar_m
   // byte 4 = checksum
 }
 
-bool CollarRx::is_message_valid(const uint8_t buffer[5])
+bool CollarRxType1::is_message_valid(const uint8_t buffer[5])
 {
   // if we're filtering by ID, check it matches
   if (_use_id && (memcmp(buffer, &_id, 2)))
@@ -60,70 +50,7 @@ bool CollarRx::is_message_valid(const uint8_t buffer[5])
   return true;
 }
 
-void CollarRx::print_message(struct collar_message *msg)
-{
-  Serial.print("ID:\t0x");
-  Serial.println(msg->id, HEX);
-
-  Serial.print("Chan.:\t");
-  Serial.println(chan_to_str(msg->channel));
-
-  Serial.print("Mode:\t");
-  Serial.println(mode_to_str(msg->mode));
-
-  Serial.print("Power:\t");
-  Serial.println(msg->power);
-}
-
-const char *CollarRx::chan_to_str(collar_channel channel)
-{
-  switch (channel)
-  {
-    case CH1:
-      return "CH1";
-
-    case CH2:
-      return "CH2";
-
-    case CH3:
-      return "CH3";
-
-    default:
-      return "CH?";
-  }
-}
-
-const char *CollarRx::mode_to_str(collar_mode mode)
-{
-  switch (mode)
-  {
-    case SHOCK:
-      return "Shock";
-
-    case VIBE:
-      return "Vibrate";
-
-    case BEEP:
-      return "Beep";
-
-    default:
-      return "MODE?";
-  }
-}
-
-void CollarRx::rx_start()
-{
-  _instance = this;
-  pinMode(_rx_pin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(_rx_pin), CollarRx::s_isr, RISING);
-}
-
-void CollarRx::s_isr()
-{
-  _instance->isr();
-}
-
-void CollarRx::isr()
+void CollarRxType1::isr()
 {
   static unsigned long rx_micros =0;
   static uint8_t pulse_count = 0;
@@ -136,8 +63,8 @@ void CollarRx::isr()
 
   // look for tranmission start state (rising edge->rising edge of ~2.2ms)
   int last_pulse_len = micros()-rx_micros ;
-  if ((last_pulse_len > START_PULSE_LEN_US-START_PULSE_TOLLERANCE) &&
-      (last_pulse_len < START_PULSE_LEN_US+START_PULSE_TOLLERANCE))
+  if ((last_pulse_len > TYPE1_START_PULSE_LEN_US-TYPE1_START_PULSE_TOLLERANCE) &&
+      (last_pulse_len < TYPE1_START_PULSE_LEN_US+TYPE1_START_PULSE_TOLLERANCE))
       {
         pulse_count = 0;
 

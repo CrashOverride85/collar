@@ -1,6 +1,6 @@
-#include <collar.h>
+#include "CollarTxType1.h"
 
-CollarTx::CollarTx(uint8_t tx_pin, uint16_t id)
+CollarTxType1::CollarTxType1(uint8_t tx_pin, uint16_t id)
 {
   _tx_pin = tx_pin;
   _id = id;
@@ -9,17 +9,7 @@ CollarTx::CollarTx(uint8_t tx_pin, uint16_t id)
   digitalWrite(_tx_pin, LOW);
 }
 
-void CollarTx::transmit (collar_channel channel, collar_mode mode, uint8_t power)
-{
-  collar_message msg;
-  msg.id = _id;
-  msg.channel = channel;
-  msg.mode = mode;
-  msg.power = power;
-  transmit(msg);
-}
-
-void CollarTx::transmit (struct collar_message message)
+void CollarTxType1::transmit (struct collar_message message)
 {
   uint8_t txbuf[4]; // bytes 0+1=ID, 2=mode&channel, 3=power
 
@@ -38,7 +28,7 @@ void CollarTx::transmit (struct collar_message message)
   tx_buffer(txbuf, sizeof(txbuf));
 }
 
-void CollarTx::tx_start()
+void CollarTxType1::tx_start()
 {
   digitalWrite(_tx_pin, HIGH);
   delayMicroseconds(1550);
@@ -46,7 +36,7 @@ void CollarTx::tx_start()
   delayMicroseconds(660);
 }
 
-void CollarTx::tx_bit(bool one)
+void CollarTxType1::tx_bit(bool one)
 {
   if (one)
   {
@@ -64,7 +54,7 @@ void CollarTx::tx_bit(bool one)
   }
 }
 
-void CollarTx::tx_byte(uint8_t val)
+void CollarTxType1::tx_byte(uint8_t val)
 {
   for (int n=7; n >=0; n--)
     tx_bit(val & (1 << n));
@@ -72,7 +62,7 @@ void CollarTx::tx_byte(uint8_t val)
 
 
 // Transmit buffer & calculate/include checksum
-void CollarTx::tx_buffer(uint8_t *buf, uint8_t buf_len)
+void CollarTxType1::tx_buffer(uint8_t *buf, uint8_t buf_len)
 {
   uint8_t check=0;
   tx_start();
