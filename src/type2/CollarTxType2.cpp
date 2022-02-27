@@ -20,8 +20,18 @@ void CollarTxType2::transmit (struct collar_message message)
     channel = 15;
   else
     return; // invalid channel for this type of collar
+    
+  uint8_t mode;
+  if (message.mode == SHOCK)
+    mode = 1;
+  else if (message.mode == VIBE)
+    mode = 2;
+  else if (message.mode == BEEP)
+    mode = 4;
+  else
+    return; // invalid mode
   
-  txbuf[0] = ((channel << 4) | message.mode);
+  txbuf[0] = ((channel << 4) | mode);
   memcpy(txbuf+1, &message.id, 2);
 
   // Power levels >100 are ignored by the collar
