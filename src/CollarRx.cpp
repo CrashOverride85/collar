@@ -82,7 +82,7 @@ void CollarRx::rx_start()
   attachInterrupt(digitalPinToInterrupt(_rx_pin), CollarRx::s_isr, RISING);
 }
 
-void CollarRx::s_isr()
+IRAM_ATTR void CollarRx::s_isr()
 {
   _instance->isr();
 }
