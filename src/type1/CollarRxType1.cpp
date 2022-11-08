@@ -50,7 +50,7 @@ bool CollarRxType1::is_message_valid(const uint8_t buffer[5])
   return true;
 }
 
-void CollarRxType1::isr()
+IRAM_ATTR void CollarRxType1::isr()
 {
   static unsigned long rx_micros =0;
   static uint8_t pulse_count = 0;
